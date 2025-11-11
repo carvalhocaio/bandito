@@ -20,6 +20,11 @@ describe.skipIf(skipInCI)("Server Health Check", () => {
 
 describe.skipIf(skipInCI)("Login Endpoint", () => {
 	const API_URL = "http://localhost:3333"
+	const TEST_USER = {
+		email: "test@example.com",
+		password: "testpassword123",
+		name: "Test User",
+	}
 
 	it("should reject login with invalid credentials", async () => {
 		const response = await fetch(`${API_URL}/login`, {
