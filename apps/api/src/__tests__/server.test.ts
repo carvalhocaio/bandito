@@ -8,7 +8,7 @@ describe("Server Health Check", () => {
 
 		expect(response.status).toBe(200)
 
-		const data = await response.json()
+		const data = (await response.json()) as { message: string }
 		expect(data).toHaveProperty("message")
 		expect(data.message).toContain("Origo API")
 	})
@@ -31,7 +31,7 @@ describe("Login Endpoint", () => {
 
 		expect(response.status).toBe(401)
 
-		const data = await response.json()
+		const data = (await response.json()) as { error: string }
 		expect(data).toHaveProperty("error")
 	})
 
@@ -79,7 +79,10 @@ describe("Login Endpoint", () => {
 
 		expect(response.status).toBe(200)
 
-		const data = await response.json()
+		const data = (await response.json()) as {
+			token: string
+			user: { id: number; name: string; email: string }
+		}
 		expect(data).toHaveProperty("token")
 		expect(data).toHaveProperty("user")
 		expect(data.user).toHaveProperty("id")

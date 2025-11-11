@@ -79,6 +79,21 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: bandito_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -103,8 +118,33 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Setup environment
+        working-directory: apps/api
+        run: |
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/bandito_test" > .env
+          echo "JWT_SECRET=test-secret-key-for-ci" >> .env
+
+      - name: Run database migrations
+        working-directory: apps/api
+        run: bun run db:push
+
+      - name: Start API server
+        working-directory: apps/api
+        run: |
+          bun src/server.ts &
+          echo $! > api.pid
+          sleep 5
+
       - name: Run tests
         run: bun run test
+
+      - name: Stop API server
+        if: always()
+        working-directory: apps/api
+        run: |
+          if [ -f api.pid ]; then
+            kill $(cat api.pid) || true
+          fi
 
   build:
     name: Build
