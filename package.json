@@ -25,6 +25,7 @@
   "packageManager": "bun@1.1.38",
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.8",
+    "drizzle-kit": "^0.31.6",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
     "turbo": "^2.6.0",
@@ -37,5 +38,10 @@
     "apps/web/**/*.{ts,tsx,js,jsx,json,css}": [
       "bash -c 'cd apps/web && bun run biome check --write --no-errors-on-unmatched \"$@\"' --"
     ]
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.44.7",
+    "postgres": "^3.4.7"
   }
 }
