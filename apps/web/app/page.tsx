@@ -3,6 +3,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { apiClient } from "./lib/api/client"
 import { getUser, isAuthenticated, logout } from "./lib/auth"
@@ -52,16 +53,19 @@ export default function Home() {
 		<div className="p-8">
 			<div className="flex justify-between items-center mb-8">
 				<div>
-					<h1 className="text-2xl font-bold">Origo</h1>
+					<h1 className="text-2xl font-bold">Bandito</h1>
 					{user && (
 						<p className="text-muted-foreground">
 							Welcome, {user.name} ({user.email})
 						</p>
 					)}
 				</div>
-				<Button onClick={logout} variant="outline">
-					Logout
-				</Button>
+				<div className="flex items-center gap-2">
+					<ThemeToggle />
+					<Button onClick={logout} variant="outline">
+						Logout
+					</Button>
+				</div>
 			</div>
 			<h2 className="text-xl font-semibold mb-4">API Response</h2>
 			<pre className="bg-muted p-4 rounded-md">{JSON.stringify(data, null, 2)}</pre>
