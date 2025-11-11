@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import { LoginForm } from "@/components/login-form"
 
 // Mock fetch
-global.fetch = vi.fn()
+global.fetch = vi.fn() as unknown as typeof fetch
 
 describe("LoginForm", () => {
 	beforeEach(() => {
