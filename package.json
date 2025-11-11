@@ -1,0 +1,41 @@
+{
+  "name": "origo",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "test:ui": "turbo run test:ui",
+    "test:coverage": "turbo run test:coverage",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "typecheck": "turbo run typecheck",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "bun@1.1.38",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "turbo": "^2.6.0",
+    "vitest": "^4.0.8"
+  },
+  "lint-staged": {
+    "apps/api/**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'cd apps/api && bun run biome check --write --no-errors-on-unmatched \"$@\"' --"
+    ],
+    "apps/web/**/*.{ts,tsx,js,jsx,json,css}": [
+      "bash -c 'cd apps/web && bun run biome check --write --no-errors-on-unmatched \"$@\"' --"
+    ]
+  }
+}

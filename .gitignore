@@ -1,0 +1,13 @@
+.turbo/
+node_modules/
+.ruff_cache/
+package-lock.json
+*.lock
+!bun.lock
+
+# Environment variables
+.env
+.env*.local
+
+# Test coverage
+coverage/

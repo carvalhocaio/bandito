@@ -1,0 +1,16 @@
+# Bun configuration file
+# https://bun.sh/docs/runtime/bunfig
+
+[install]
+# Production dependencies only
+production = false
+
+# Always use exact versions
+exact = false
+
+# Registry configuration
+registry = "https://registry.npmjs.org/"
+
+[test]
+# Coverage threshold
+coverage = true
