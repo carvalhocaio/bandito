@@ -1,6 +1,10 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
 
-describe("Server Health Check", () => {
+// Integration tests that require server to be running
+// These are skipped in CI and should be run manually with server running
+const skipInCI = process.env.CI === "true"
+
+describe.skipIf(skipInCI)("Server Health Check", () => {
 	const API_URL = "http://localhost:3333"
 
 	it("should respond to health check", async () => {
@@ -14,7 +18,7 @@ describe("Server Health Check", () => {
 	})
 })
 
-describe("Login Endpoint", () => {
+describe.skipIf(skipInCI)("Login Endpoint", () => {
 	const API_URL = "http://localhost:3333"
 
 	it("should reject login with invalid credentials", async () => {
@@ -72,8 +76,8 @@ describe("Login Endpoint", () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				email: "caiocarvalho.py@gmail.com",
-				password: "sahlofolina",
+				email: TEST_USER.email,
+				password: TEST_USER.password,
 			}),
 		})
 
@@ -88,6 +92,7 @@ describe("Login Endpoint", () => {
 		expect(data.user).toHaveProperty("id")
 		expect(data.user).toHaveProperty("name")
 		expect(data.user).toHaveProperty("email")
-		expect(data.user.email).toBe("caiocarvalho.py@gmail.com")
+		expect(data.user.email).toBe(TEST_USER.email)
+		expect(data.user.name).toBe(TEST_USER.name)
 	})
 })
